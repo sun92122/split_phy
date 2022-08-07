@@ -9,9 +9,10 @@ def get_log(debug: bool):
     if not os.path.isdir(os.path.join('log')):
         os.mkdir(os.path.join('log'))
     newlogger: logging.Logger = logging.getLogger(name='NTNUPHY')
-    newlogger.setLevel(logging.INFO)
+    newlogger.setLevel(logging.DEBUG) # show debug, info, warning, error, critical
 
-    handler: logging.FileHandler = logging.FileHandler(os.path.join('log', "lastlog.log"))
+    handler: logging.FileHandler = logging.FileHandler(
+        os.path.join('log', "lastlog.log"))
     formatter: logging.Formatter = logging.Formatter(
         '[%(levelname)s] %(name)s: %(asctime)s - %(message)s', '%Y-%m-%d %H:%M:%S')
     handler.setFormatter(formatter)
@@ -19,9 +20,9 @@ def get_log(debug: bool):
 
     handler: logging.StreamHandler = logging.StreamHandler()
     if debug:
-        handler.setLevel(logging.INFO)  # show info, warning, error, critical
+        handler.setLevel(logging.INFO) # show info, warning, error, critical
     else:
-        handler.setLevel(logging.WARNING)  # show warning, error, critical
+        handler.setLevel(logging.WARNING) # show warning, error, critical
     formatter: logging.Formatter = logging.Formatter(
         '%(asctime)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
@@ -32,8 +33,9 @@ def get_log(debug: bool):
 def new_log(debug=False):
     try:
         lastlog = strftime("%Y-%m-%d-%H-%M-%S.log",
-                           localtime(os.path.getctime("lastlog.log")))
-        os.rename('lastlog.log', os.path.join('log', lastlog))
+                           localtime(os.path.getctime(os.path.join('log', "lastlog.log"))))
+        os.rename(os.path.join('log', "lastlog.log"),
+                  os.path.join('log', lastlog))
         newlogger = get_log(debug)
         newlogger.info('successfully renamed prelog')
     except:
@@ -44,16 +46,21 @@ def new_log(debug=False):
 
 def timing(func):
     def wrapper(self=None, *args, **kwargs):
-        print(self, args, kwargs)
         t1 = perf_counter_ns()
         try:
-            func(self)
+            try:    
+                func(self, *args, **kwargs)
+            except:
+                func(self)
         except:
-            func()
+            try:    
+                func(*args, **kwargs)
+            except:
+                func()
         t2 = perf_counter_ns()
         secs = f"{(t2-t1)//1000000000}.{(t2-t1)%1000000000:0>9d}"
         try:
-            self.logger.info(f"{func.__name__} : run time(secs): {secs}")
+            self.logger.debug(f"{func.__name__} run: {secs} (secs)")
         except:
             print(f"{func.__name__} run: {secs} (secs)")
     return wrapper
