@@ -6,10 +6,10 @@
 
 `3.9.7`
 
-## Install pyQt package
+## Install dependencies
 
 ```shell
-pip install pyqt
+pip install -r requirements.txt
 ```
 
 ## Convert pyQt UI to python
