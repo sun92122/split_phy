@@ -1,34 +1,43 @@
-# split_phy  
+# split_phy
 
-## python version  
+~~就抽籤而已那麼麻煩~~
+
+## python version
 
 `3.9.7`
 
-## install package  
+## Install pyQt package
 
-```shell  
+```shell
 pip install pyqt
 ```
 
-## `.ui` to `.py`  
+## Convert pyQt UI to python
 
-```shell  
+```shell
 pyuic5 -x UI.ui -o UI.py
 ```
 
-## run code  
+## Run code
 
-```shell  
-cd ./src
-python main.py
+```shell
+python .\src\main.py
 ```
 
-## packaging code  
+## packaging code
 
-```shell  
+### Requires python3.7 or above
+
+### install installer package
+
+```shell
 pip install pyinstaller
 ```
 
-```shell  
-pyinstaller -F app.py
+### packaging
+
+```shell
+python .\package.py
 ```
+
+By default, the executable file will be stored in dist folder.
