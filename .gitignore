@@ -2,6 +2,9 @@
 test.ipynb
 test.py
 
+# old ui
+.qt_for_python/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
