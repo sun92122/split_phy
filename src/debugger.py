@@ -6,10 +6,12 @@ from time import localtime, strftime, perf_counter_ns
 
 
 def get_log(debug: bool):
-    newlogger: logging.Logger = logging.getLogger(name='NTNUCourse')
+    if not os.path.isdir(os.path.join('log')):
+        os.mkdir(os.path.join('log'))
+    newlogger: logging.Logger = logging.getLogger(name='NTNUPHY')
     newlogger.setLevel(logging.INFO)
 
-    handler: logging.FileHandler = logging.FileHandler('lastlog.log')
+    handler: logging.FileHandler = logging.FileHandler(os.path.join('log', "lastlog.log"))
     formatter: logging.Formatter = logging.Formatter(
         '[%(levelname)s] %(name)s: %(asctime)s - %(message)s', '%Y-%m-%d %H:%M:%S')
     handler.setFormatter(formatter)
@@ -42,10 +44,16 @@ def new_log(debug=False):
 
 def timing(func):
     def wrapper(self=None, *args, **kwargs):
-        print(*args, **kwargs)
-        print("Start", func.__name__)
+        print(self, args, kwargs)
         t1 = perf_counter_ns()
-        func(self)
+        try:
+            func(self)
+        except:
+            func()
         t2 = perf_counter_ns()
-        print("Elapsed time(secs):", t2 - t1)
+        secs = f"{(t2-t1)//1000000000}.{(t2-t1)%1000000000:0>9d}"
+        try:
+            self.logger.info(f"{func.__name__} : run time(secs): {secs}")
+        except:
+            print(f"{func.__name__} run: {secs} (secs)")
     return wrapper
