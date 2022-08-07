@@ -23,6 +23,7 @@ class UiMain(object):
         self.button_layout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.button_layout.setSpacing(6)
         self.button_layout.setObjectName("button_layout")
+
         self.R1C5 = QtWidgets.QPushButton(self.backgrond)
         self.R1C5.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -40,6 +41,7 @@ class UiMain(object):
         self.R1C5.setFlat(False)
         self.R1C5.setObjectName("R1C5")
         self.button_layout.addWidget(self.R1C5, 0, 4, 1, 1)
+
         self.R1C1 = QtWidgets.QPushButton(self.backgrond)
         self.R1C1.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -57,6 +59,7 @@ class UiMain(object):
         self.R1C1.setFlat(False)
         self.R1C1.setObjectName("R1C1")
         self.button_layout.addWidget(self.R1C1, 0, 0, 1, 1)
+
         self.R2C5 = QtWidgets.QPushButton(self.backgrond)
         self.R2C5.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -74,6 +77,7 @@ class UiMain(object):
         self.R2C5.setFlat(False)
         self.R2C5.setObjectName("R2C5")
         self.button_layout.addWidget(self.R2C5, 1, 4, 1, 1)
+
         self.R3C1 = QtWidgets.QPushButton(self.backgrond)
         self.R3C1.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -91,6 +95,7 @@ class UiMain(object):
         self.R3C1.setFlat(False)
         self.R3C1.setObjectName("R3C1")
         self.button_layout.addWidget(self.R3C1, 2, 0, 1, 1)
+
         self.R1C2 = QtWidgets.QPushButton(self.backgrond)
         self.R1C2.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -108,6 +113,7 @@ class UiMain(object):
         self.R1C2.setFlat(False)
         self.R1C2.setObjectName("R1C2")
         self.button_layout.addWidget(self.R1C2, 0, 1, 1, 1)
+
         self.R1C3 = QtWidgets.QPushButton(self.backgrond)
         self.R1C3.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -125,6 +131,7 @@ class UiMain(object):
         self.R1C3.setFlat(False)
         self.R1C3.setObjectName("R1C3")
         self.button_layout.addWidget(self.R1C3, 0, 2, 1, 1)
+
         self.R1C4 = QtWidgets.QPushButton(self.backgrond)
         self.R1C4.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -142,6 +149,7 @@ class UiMain(object):
         self.R1C4.setFlat(False)
         self.R1C4.setObjectName("R1C4")
         self.button_layout.addWidget(self.R1C4, 0, 3, 1, 1)
+
         self.R2C1 = QtWidgets.QPushButton(self.backgrond)
         self.R2C1.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -159,6 +167,7 @@ class UiMain(object):
         self.R2C1.setFlat(False)
         self.R2C1.setObjectName("R2C1")
         self.button_layout.addWidget(self.R2C1, 1, 0, 1, 1)
+
         self.R2C2 = QtWidgets.QPushButton(self.backgrond)
         self.R2C2.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -176,6 +185,7 @@ class UiMain(object):
         self.R2C2.setFlat(False)
         self.R2C2.setObjectName("R2C2")
         self.button_layout.addWidget(self.R2C2, 1, 1, 1, 1)
+
         self.R2C3 = QtWidgets.QPushButton(self.backgrond)
         self.R2C3.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -193,6 +203,7 @@ class UiMain(object):
         self.R2C3.setFlat(False)
         self.R2C3.setObjectName("R2C3")
         self.button_layout.addWidget(self.R2C3, 1, 2, 1, 1)
+
         self.R2C4 = QtWidgets.QPushButton(self.backgrond)
         self.R2C4.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -210,6 +221,7 @@ class UiMain(object):
         self.R2C4.setFlat(False)
         self.R2C4.setObjectName("R2C4")
         self.button_layout.addWidget(self.R2C4, 1, 3, 1, 1)
+
         self.R5C1 = QtWidgets.QPushButton(self.backgrond)
         self.R5C1.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -227,6 +239,7 @@ class UiMain(object):
         self.R5C1.setFlat(False)
         self.R5C1.setObjectName("R5C1")
         self.button_layout.addWidget(self.R5C1, 4, 0, 1, 1)
+
         self.R5C4 = QtWidgets.QPushButton(self.backgrond)
         self.R5C4.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -244,6 +257,7 @@ class UiMain(object):
         self.R5C4.setFlat(False)
         self.R5C4.setObjectName("R5C4")
         self.button_layout.addWidget(self.R5C4, 4, 3, 1, 1)
+
         self.R3C4 = QtWidgets.QPushButton(self.backgrond)
         self.R3C4.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -261,6 +275,7 @@ class UiMain(object):
         self.R3C4.setFlat(False)
         self.R3C4.setObjectName("R3C4")
         self.button_layout.addWidget(self.R3C4, 2, 3, 1, 1)
+
         self.R4C2 = QtWidgets.QPushButton(self.backgrond)
         self.R4C2.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -278,6 +293,7 @@ class UiMain(object):
         self.R4C2.setFlat(False)
         self.R4C2.setObjectName("R4C2")
         self.button_layout.addWidget(self.R4C2, 3, 1, 1, 1)
+
         self.R5C3 = QtWidgets.QPushButton(self.backgrond)
         self.R5C3.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -295,6 +311,7 @@ class UiMain(object):
         self.R5C3.setFlat(False)
         self.R5C3.setObjectName("R5C3")
         self.button_layout.addWidget(self.R5C3, 4, 2, 1, 1)
+
         self.R3C3 = QtWidgets.QPushButton(self.backgrond)
         self.R3C3.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -312,6 +329,7 @@ class UiMain(object):
         self.R3C3.setFlat(False)
         self.R3C3.setObjectName("R3C3")
         self.button_layout.addWidget(self.R3C3, 2, 2, 1, 1)
+
         self.R3C5 = QtWidgets.QPushButton(self.backgrond)
         self.R3C5.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -329,6 +347,7 @@ class UiMain(object):
         self.R3C5.setFlat(False)
         self.R3C5.setObjectName("R3C5")
         self.button_layout.addWidget(self.R3C5, 2, 4, 1, 1)
+
         self.R3C2 = QtWidgets.QPushButton(self.backgrond)
         self.R3C2.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -346,6 +365,7 @@ class UiMain(object):
         self.R3C2.setFlat(False)
         self.R3C2.setObjectName("R3C2")
         self.button_layout.addWidget(self.R3C2, 2, 1, 1, 1)
+
         self.R4C4 = QtWidgets.QPushButton(self.backgrond)
         self.R4C4.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -363,6 +383,7 @@ class UiMain(object):
         self.R4C4.setFlat(False)
         self.R4C4.setObjectName("R4C4")
         self.button_layout.addWidget(self.R4C4, 3, 3, 1, 1)
+
         self.R5C2 = QtWidgets.QPushButton(self.backgrond)
         self.R5C2.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -380,6 +401,7 @@ class UiMain(object):
         self.R5C2.setFlat(False)
         self.R5C2.setObjectName("R5C2")
         self.button_layout.addWidget(self.R5C2, 4, 1, 1, 1)
+
         self.R4C3 = QtWidgets.QPushButton(self.backgrond)
         self.R4C3.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -397,6 +419,7 @@ class UiMain(object):
         self.R4C3.setFlat(False)
         self.R4C3.setObjectName("R4C3")
         self.button_layout.addWidget(self.R4C3, 3, 2, 1, 1)
+
         self.R4C1 = QtWidgets.QPushButton(self.backgrond)
         self.R4C1.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -414,6 +437,7 @@ class UiMain(object):
         self.R4C1.setFlat(False)
         self.R4C1.setObjectName("R4C1")
         self.button_layout.addWidget(self.R4C1, 3, 0, 1, 1)
+
         self.R5C5 = QtWidgets.QPushButton(self.backgrond)
         self.R5C5.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -431,6 +455,7 @@ class UiMain(object):
         self.R5C5.setFlat(False)
         self.R5C5.setObjectName("R5C5")
         self.button_layout.addWidget(self.R5C5, 4, 4, 1, 1)
+
         self.R4C5 = QtWidgets.QPushButton(self.backgrond)
         self.R4C5.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -448,6 +473,7 @@ class UiMain(object):
         self.R4C5.setFlat(False)
         self.R4C5.setObjectName("R4C5")
         self.button_layout.addWidget(self.R4C5, 3, 4, 1, 1)
+        
         self.gridLayout_2.addLayout(self.button_layout, 1, 0, 1, 1)
         main.setCentralWidget(self.backgrond)
         self.actionquit = QtWidgets.QAction(main)
