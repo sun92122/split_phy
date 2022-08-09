@@ -45,22 +45,16 @@ def new_log(debug=False):
 
 
 def timing(func):
-    def wrapper(self=None, *args, **kwargs):
+    def wrapper(*args, **kwargs):
         t1 = perf_counter_ns()
-        try:
-            try:    
-                func(self, *args, **kwargs)
-            except:
-                func(self)
+        try:    
+            func()
         except:
-            try:    
-                func(*args, **kwargs)
-            except:
-                func()
+            func(*args, **kwargs)
         t2 = perf_counter_ns()
         secs = f"{(t2-t1)//1000000000}.{(t2-t1)%1000000000:0>9d}"
         try:
-            self.logger.debug(f"{func.__name__} run: {secs} (secs)")
+            args[0].logger.debug(f"{func.__name__} run: {secs} (secs)")
         except:
             print(f"{func.__name__} run: {secs} (secs)")
     return wrapper
