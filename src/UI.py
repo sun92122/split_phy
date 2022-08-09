@@ -319,7 +319,8 @@ class UiMain(object):
 
         self.retranslateUi(Main)
         QtCore.QMetaObject.connectSlotsByName(Main)
-        Main.setTabOrder(self.R1C1, self.R1C3)
+        Main.setTabOrder(self.R1C1, self.R1C2)
+        Main.setTabOrder(self.R1C2, self.R1C3)
         Main.setTabOrder(self.R1C3, self.R1C4)
         Main.setTabOrder(self.R1C4, self.R1C5)
         Main.setTabOrder(self.R1C5, self.R2C1)

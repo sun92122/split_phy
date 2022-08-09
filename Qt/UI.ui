@@ -671,6 +671,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>R1C1</tabstop>
+  <tabstop>R1C2</tabstop>
   <tabstop>R1C3</tabstop>
   <tabstop>R1C4</tabstop>
   <tabstop>R1C5</tabstop>
