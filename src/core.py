@@ -16,22 +16,32 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = UiMain()
         self.ui.setupUi(self)
         self.connect_button()
+        self.set_button_icon()
 
-    @timing        
+    @timing    
     def connect_button(self):
         # QPushButton documentation: https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QPushButton.html
         for R in range(1, 6):
             for C in range(1, 6):
                 button: QtWidgets.QPushButton = getattr(self.ui, f'R{R}C{C}')
                 button.clicked.connect(self.push_button)
-                try:
-                    button.setIcon(QtGui.QIcon(path.join('img', 'test.jpg')))
-                    button.setIconSize(QtCore.QSize(320, 222))
-                except:
-                    self.logger.warning(f"Button {button.objectName()} icon import failed")
 
     @timing
-    def push_button(self):
+    def set_button_icon(self): # FIX 2022/8/8 magical
+        for R in range(1, 6):
+            for C in range(1, 6):
+                button: QtWidgets.QPushButton = getattr(self.ui, f'R{R}C{C}')
+                try: # TODO 2022/8/9 magical set button icon
+                    button.setStyleSheet("""
+                        QPushButton {
+                            border-image: url('./img/test.jpg');
+                        }
+                    """)
+                except:
+                    self.logger.warning(f"Button {button.objectName()} icon import failed")
+        
+    @timing
+    def push_button(self, checked):
         button: QtWidgets.QPushButton = self.sender()
         # button = self.ui.R1C1 # test
         self.logger.info(f"Button {button.objectName()} has been pressed")
@@ -68,6 +78,13 @@ class MainWindow(QtWidgets.QMainWindow):
         for i in range(100):
             if not sub_width(i):
                 break
+        
+        button.setStyleSheet("""
+                        QPushButton {
+                            border-image: none;
+                        }
+                    """)
+
         for i in range(100):
             if not add_width(i):
                 break
