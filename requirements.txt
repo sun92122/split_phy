@@ -1,2 +1,2 @@
 PyQt5==5.15.7
-python-vlc==3.0.16120
+pygame==2.1.2
