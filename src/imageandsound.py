@@ -37,10 +37,10 @@ def sound_decode():
     dir = path.join('.', 'sound')
     if not path.isdir():
         mkdir(dir)
-    from image_base64 import image
-    image = base64.b64decode(image)
-    image = BytesIO(image)
-    Image.open(image).save(path.join(dir, 'sound.mp3'))
+    from sound_base64 import sound
+    sound = base64.b64decode(sound)
+    sound = BytesIO(sound)
+    Image.open(sound).save(path.join(dir, 'sound.mp3'))
 
 if __name__ == '__main__':
     base64_file = path.join('.', 'src', 'image_base64.py')
