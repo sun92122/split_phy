@@ -13,8 +13,6 @@ def clean_oldlog():
 
 
 def get_log(debug: bool):
-    if not path.isdir(path.join('log')):
-        mkdir(path.join('log'))
     newlogger: Logger = getLogger(name='NTNUPHY')
     newlogger.setLevel(DEBUG)  # show debug, info, warning, error, critical
 
@@ -37,14 +35,18 @@ def get_log(debug: bool):
 
 
 def new_log(debug=False):
+    if not path.isdir(path.join('log')):
+        mkdir(path.join('log'))
     try:
         if len(listdir(path.join('log'))) >= 1:
             lastlog = strftime(
                 "%Y-%m-%d-%H-%M-%S.log", localtime(path.getctime(path.join('log', "lastlog.log"))))
             rename(path.join('log', "lastlog.log"),
                    path.join('log', lastlog))
-        newlogger = get_log(debug)
-        newlogger.info('successfully renamed prelog')
+            newlogger = get_log(debug)
+            newlogger.info('successfully renamed prelog')
+        else:
+            newlogger = get_log(debug)
     except:
         newlogger = get_log(debug)
         newlogger.info('failed to rename prelog', exc_info=True)
