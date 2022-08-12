@@ -14,7 +14,7 @@ def clean_oldlog():
 
 def get_log(debug: bool):
     if not path.isdir(path.join('log')):
-        mkdir()
+        mkdir(path.join('log'))
     newlogger: Logger = getLogger(name='NTNUPHY')
     newlogger.setLevel(DEBUG)  # show debug, info, warning, error, critical
 
