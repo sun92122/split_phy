@@ -12,6 +12,8 @@
 pip install -r requirements.txt
 ```
 
+If you have pygame and PyQt5 maybe you can skip this step.
+
 ## Convert pyQt UI to python
 
 ```shell
