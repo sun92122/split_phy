@@ -20,6 +20,8 @@ If you have pygame and PyQt5 maybe you can skip this step.
 pyuic5 -x UI.ui -o UI.py
 ```
 
+Some code may need to be corrected after using this command.
+
 ## Run code
 
 ```shell
