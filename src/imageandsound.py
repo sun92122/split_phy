@@ -13,16 +13,20 @@ def img_encode(image_file, base64_file):
 
     with open(base64_file, 'w') as f:
         f.write(temp)
+        f.write(f'\ntype = "{path.splitext(image_file)[1]}"')
 
 
-def img_decode():
+def img_decode(is_exists=False):
+    from image_base64 import image, type
+    if is_exists:
+        return type
     dir = path.join('.', 'img')
     if not path.isdir(dir):
         mkdir(dir)
-    from image_base64 import image
     image = base64.b64decode(image)
     image = BytesIO(image)
-    Image.open(image).save(path.join(dir, 'image.jpg'))
+    Image.open(image).save(path.join(dir, f'image{type}'))
+    return type
 
 
 def sound_encode(image_file, base64_file):
@@ -44,16 +48,17 @@ def sound_decode():
 
 if __name__ == '__main__':
     base64_file = path.join('.', 'src', 'image_base64.py')
-    image_file = path.join('.', 'img', 'image.jpg')
-    test_file = path.join('.', 'img', 'test.jpg')
+    image_file = path.join('.', 'img', 'image.jpg' if path.exists(path.join('.', 'img', 'image.jpg')) else 'image.png')
     try:
         img_encode(image_file, base64_file)
     except:
+        test_file = path.join('.', 'img', 'test.jpg')
         img_encode(test_file, base64_file)
+
     base64_file = path.join('.', 'src', 'sound_base64.py')
     image_file = path.join('.', 'sound', 'sound.mp3')
-    test_file = path.join('.', 'sound', 'test.mp3')
     try:
         sound_encode(image_file, base64_file)
     except:
+        test_file = path.join('.', 'sound', 'test.mp3')
         sound_encode(test_file, base64_file)
