@@ -6,6 +6,9 @@ test.py
 image.jpg
 sound.mp3
 
+# not for code
+*.xlsx
+
 # old ui
 .qt_for_python/
 
