@@ -19,14 +19,15 @@ def img_encode(image_file, base64_file):
 def img_decode(is_exists=False):
     from image_base64 import image, type
     if is_exists:
-        return type
+        return type, Image.open(path.join('.', 'img', f'image{type}')).size
     dir = path.join('.', 'img')
     if not path.isdir(dir):
         mkdir(dir)
     image = base64.b64decode(image)
     image = BytesIO(image)
-    Image.open(image).save(path.join(dir, f'image{type}'))
-    return type
+    image = Image.open(image)
+    image.save(path.join(dir, f'image{type}'))
+    return type, image.size
 
 
 def sound_encode(image_file, base64_file):
