@@ -16,7 +16,7 @@ def get_log(debug: bool):
     newlogger: Logger = getLogger(name='NTNUPHY')
     newlogger.setLevel(DEBUG)  # show debug, info, warning, error, critical
 
-    handler: FileHandler = FileHandler(path.join('log', "lastlog.log"))
+    handler: FileHandler = FileHandler(path.join('log', "lastlog.log"), encoding='utf-8')
     formatter: Formatter = Formatter(
         '[%(levelname)s] %(name)s: %(asctime)s - %(message)s', '%Y-%m-%d %H:%M:%S')
     handler.setFormatter(formatter)
