@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from data import Debug, group, try_again
 from debugger import new_log, timing
-from imageandsound import img_decode, sound_decode, hover_decode
+from imageandsound import img_decode, sound_decode, hover_decode, icon_decode, front_decode
 from UI import UiMain
 
 
@@ -25,7 +25,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.newfont = self.get_font()
         self.setWindowTitle('我愛瑞典肉丸')
         try:
-            self.setWindowIcon(QtGui.QIcon(path.join('.', 'img', 'icon.jpg')))
+            icon_type = icon_decode()
+            self.setWindowIcon(QtGui.QIcon(path.join('.', 'img', f'icon{icon_type}')))
         except:
             pass
         self.img_size = (1086, 730)
@@ -40,7 +41,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         self.front_style = """
             QPushButton {
-                border-image: url("./img/front.png");
+                border-image: url("./img/test.jpg");
                 color: #333
             }
         """
@@ -110,16 +111,26 @@ class MainWindow(QtWidgets.QMainWindow):
     @timing
     def set_button_icon(self):
         debug = Debug.set_button_icon
+
         if not path.exists(path.join('.', 'img', 'image.jpg')) and not path.exists(path.join('.', 'img', 'image.png')):
             img_type, self.img_size = img_decode()
         else:
             img_type, self.img_size = img_decode(True)
+
         if not path.exists(path.join('.', 'img', 'hover.jpg')) and not path.exists(path.join('.', 'img', 'hover.png')):
             hover_type = hover_decode()
         else:
             hover_type = hover_decode(True)
+
+        if not path.exists(path.join('.', 'img', 'front.jpg')) and not path.exists(path.join('.', 'img', 'front.png')):
+            front_type = front_decode()
+        else:
+            front_type = front_decode(True)
+
         if not debug:
             self.image_style = self.image_style.replace('test.jpg', f'image{img_type}').replace('test_hover.jpg', f'hover{hover_type}')
+            self.front_style = self.front_style.replace('test.jpg', f'front{front_type}')
+
         for R in range(1, 6):
             for C in range(1, 6):
                 button: QtWidgets.QPushButton = getattr(self.ui, f'R{R}C{C}')
