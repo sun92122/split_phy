@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# QPushButton documentation: https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QPushButton.html
+
 from os import path
 from random import sample, seed, shuffle
 from time import perf_counter
@@ -9,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from data import Debug, group, try_again
 from debugger import new_log, timing
-from imageandsound import img_decode, sound_decode
+from imageandsound import img_decode, sound_decode, hover_decode
 from UI import UiMain
 
 
@@ -20,43 +22,89 @@ class MainWindow(QtWidgets.QMainWindow):
         self.flash = lambda: QtWidgets.QApplication.processEvents()
         self.ui = UiMain()
         self.ui.setupUi(self)
+        self.newfont = self.get_font()
+        self.setWindowTitle('我愛瑞典肉丸')
+        try:
+            self.setWindowIcon(QtGui.QIcon(path.join('.', 'img', 'icon.jpg')))
+        except:
+            pass
         self.img_size = (1086, 730)
-        self.ui.backgrond.setStyleSheet('background-color: white;')
+        self.ui.backgrond.setStyleSheet('background-color: #BABABA;')
         self.image_style = """
             QPushButton {
                 border-image: url("./img/test.jpg");
-                border: 5px solid #7091FF;
-                border-radius: 10px;
             }
             QPushButton:hover, QPushButton:pressed {
-                border-image: url("./img/test.jpg");
-                border: 5px solid #0000FF;
+                border-image: url("./img/test_hover.jpg");
             }
         """
         self.front_style = """
             QPushButton {
-                background-color: white;
-                border-radius: 10px;
-                padding: 2px 4px
+                border-image: url("./img/front.png");
+                color: #333
             }
         """
+        self.space_size = 0
         self.showFullScreen()
         self.has_pressed = {}
         self.connect_button()
         self.set_button_icon()
+        self.set_close()
         self.timer = perf_counter()-5
         self.set_push_sound()
         self.play_sound = lambda: mixer.music.play()
         self.rand_result = {}
         self.rand()
 
+
+    def get_font(self):
+        font = QtGui.QFont()
+        font.setFamily('微軟正黑體')
+        font.setPixelSize(50)
+        return font
+
+
+    def set_close(self):
+        self.close = QtWidgets.QDockWidget(self)
+        self.close.setFeatures(QtWidgets.QDockWidget.DockWidgetFloatable)
+        self.close.setFloating(True)
+        self.close_button = QtWidgets.QPushButton()
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        self.close_button.setSizePolicy(sizePolicy)
+        self.close_button.setMinimumSize(QtCore.QSize(0, 0))
+        self.close_button.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.close_button.setText("X")
+        self.close_button.setObjectName("Close")
+        self.close_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
+        size = self.space_size/2+1
+        self.logger.debug(self.close_button.geometry().size())
+        self.close.setWidget(self.close_button)
+        self.close.setTitleBarWidget(QtWidgets.QWidget())
+        self.close.setGeometry(self.size().width()-size+1, 0, size, size)
+        self.close.setStyleSheet("background-color: #BABABA;")
+        self.close_button.setStyleSheet("""
+            QPushButton {
+                border: 2px solid #222;
+                border-radius: 38%;
+                background-color: #FF0;
+                font-size: 20px;
+            }
+            QPushButton:hover, QPushButton:pressed {
+                background-color: #F00;
+            }
+        """.replace('num', str(38)))
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.close)
+                
+
     @timing
     def connect_button(self):
-        # QPushButton documentation: https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QPushButton.html
         for R in range(1, 6):
             for C in range(1, 6):
                 button: QtWidgets.QPushButton = getattr(self.ui, f'R{R}C{C}')
                 button.clicked.connect(self.push_button)
+                button.setFont(self.newfont)
                 self.has_pressed[f'R{R}C{C}'] = False
 
     @timing
@@ -66,8 +114,12 @@ class MainWindow(QtWidgets.QMainWindow):
             img_type, self.img_size = img_decode()
         else:
             img_type, self.img_size = img_decode(True)
+        if not path.exists(path.join('.', 'img', 'hover.jpg')) and not path.exists(path.join('.', 'img', 'hover.png')):
+            hover_type = hover_decode()
+        else:
+            hover_type = hover_decode(True)
         if not debug:
-            self.image_style = self.image_style.replace('test.jpg', f'image{img_type}')
+            self.image_style = self.image_style.replace('test.jpg', f'image{img_type}').replace('test_hover.jpg', f'hover{hover_type}')
         for R in range(1, 6):
             for C in range(1, 6):
                 button: QtWidgets.QPushButton = getattr(self.ui, f'R{R}C{C}')
@@ -161,18 +213,17 @@ class MainWindow(QtWidgets.QMainWindow):
             for C in range(1, 6):
                 self.rand_result[f"R{R}C{C}"] = group_25[R+C*5-6]
 
-    def resizeEvent(self, a0: QtGui.QResizeEvent):
+    def resizeEvent(self, a0: QtGui.QResizeEvent): # not callable
         width, height = a0.size().width(), a0.size().height()
         img_w, img_h = self.img_size
         if width/img_w > height/img_h:
-            dw = (width-height/img_h*img_w)/2
-            self.ui.Rspacer.changeSize(dw, 40)
-            self.ui.Lspacer.changeSize(dw, 40)
+            self.space_size = (width-height/img_h*img_w)/2
         else:
-            self.ui.Rspacer.changeSize(0, 40)
-            self.ui.Lspacer.changeSize(0, 40)
+            self.space_size = 0
+        self.ui.Rspacer.changeSize(self.space_size, 40)
+        self.ui.Lspacer.changeSize(self.space_size, 40)
         self.flash()
     
-    def keyPressEvent(self, a0: QtGui.QKeyEvent):
+    def keyPressEvent(self, a0: QtGui.QKeyEvent): # not callable
         if a0.key() == QtCore.Qt.Key_Escape:
             QtCore.QCoreApplication.instance().quit()
