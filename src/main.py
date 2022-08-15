@@ -16,4 +16,6 @@ if __name__ == '__main__':
     window = MainWindow()
     os.system('cls' if os.name == 'nt' else 'clear')
     window.show()
-    sys.exit(app.exec_())
+    app.exec_()
+    window.endapp()
+    sys.exit(0)

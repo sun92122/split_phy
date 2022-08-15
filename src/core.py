@@ -4,14 +4,15 @@
 
 from os import path
 from random import sample, seed, shuffle
-from time import perf_counter
+from time import perf_counter, ctime
 
 from pygame import mixer
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from data import Debug, group, try_again
 from debugger import new_log, timing
-from imageandsound import img_decode, sound_decode, hover_decode, icon_decode, front_decode
+from imageandsound import (front_decode, hover_decode, icon_decode, img_decode,
+                           sound_decode)
 from UI import UiMain
 
 
@@ -25,8 +26,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.newfont = self.get_font()
         self.setWindowTitle('我愛瑞典肉丸')
         try:
-            icon_type = icon_decode()
-            self.setWindowIcon(QtGui.QIcon(path.join('.', 'img', f'icon{icon_type}')))
+            icon_type = icon_decode(path.exists(path.join(
+                '.', 'img', 'icon.jpg')) or path.exists(path.join('.', 'img', 'icon.png')))
+            self.setWindowIcon(QtGui.QIcon(
+                path.join('.', 'img', f'icon{icon_type}')))
         except:
             pass
         self.img_size = (1086, 730)
@@ -50,13 +53,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.has_pressed = {}
         self.connect_button()
         self.set_button_icon()
+        self.end = lambda: QtCore.QCoreApplication.instance().quit()
         self.set_close()
         self.timer = perf_counter()-5
         self.set_push_sound()
         self.play_sound = lambda: mixer.music.play()
         self.rand_result = {}
         self.rand()
-
+        self.completed = []
 
     def get_font(self):
         font = QtGui.QFont()
@@ -64,13 +68,14 @@ class MainWindow(QtWidgets.QMainWindow):
         font.setPixelSize(50)
         return font
 
-
+    @timing
     def set_close(self):
         self.close = QtWidgets.QDockWidget(self)
         self.close.setFeatures(QtWidgets.QDockWidget.DockWidgetFloatable)
         self.close.setFloating(True)
         self.close_button = QtWidgets.QPushButton()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         self.close_button.setSizePolicy(sizePolicy)
@@ -78,7 +83,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.close_button.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.close_button.setText("X")
         self.close_button.setObjectName("Close")
-        self.close_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
+        self.close_button.clicked.connect(self.end)
         size = self.space_size/2+1
         self.logger.debug(self.close_button.geometry().size())
         self.close.setWidget(self.close_button)
@@ -91,13 +96,14 @@ class MainWindow(QtWidgets.QMainWindow):
                 border-radius: 38%;
                 background-color: #FF0;
                 font-size: 20px;
+                color: #111
             }
             QPushButton:hover, QPushButton:pressed {
                 background-color: #F00;
             }
-        """.replace('num', str(38)))
+        """)
+        self.close_button.setFont(self.newfont)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.close)
-                
 
     @timing
     def connect_button(self):
@@ -112,24 +118,20 @@ class MainWindow(QtWidgets.QMainWindow):
     def set_button_icon(self):
         debug = Debug.set_button_icon
 
-        if not path.exists(path.join('.', 'img', 'image.jpg')) and not path.exists(path.join('.', 'img', 'image.png')):
-            img_type, self.img_size = img_decode()
-        else:
-            img_type, self.img_size = img_decode(True)
+        img_type, self.img_size = img_decode(path.exists(path.join(
+            '.', 'img', 'image.jpg')) or path.exists(path.join('.', 'img', 'image.png')))
 
-        if not path.exists(path.join('.', 'img', 'hover.jpg')) and not path.exists(path.join('.', 'img', 'hover.png')):
-            hover_type = hover_decode()
-        else:
-            hover_type = hover_decode(True)
+        hover_type = hover_decode(path.exists(path.join(
+            '.', 'img', 'hover.jpg')) or path.exists(path.join('.', 'img', 'hover.png')))
 
-        if not path.exists(path.join('.', 'img', 'front.jpg')) and not path.exists(path.join('.', 'img', 'front.png')):
-            front_type = front_decode()
-        else:
-            front_type = front_decode(True)
+        front_type = front_decode(path.exists(path.join(
+            '.', 'img', 'front.jpg')) or path.exists(path.join('.', 'img', 'front.png')))
 
         if not debug:
-            self.image_style = self.image_style.replace('test.jpg', f'image{img_type}').replace('test_hover.jpg', f'hover{hover_type}')
-            self.front_style = self.front_style.replace('test.jpg', f'front{front_type}')
+            self.image_style = self.image_style.replace(
+                'test.jpg', f'image{img_type}').replace('test_hover.jpg', f'hover{hover_type}')
+            self.front_style = self.front_style.replace(
+                'test.jpg', f'front{front_type}')
 
         for R in range(1, 6):
             for C in range(1, 6):
@@ -159,7 +161,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.logger.info(
                 f"Button {button_name} has been pressed but has been flipped")
         elif perf_counter()-self.timer > 5 or debug:
-            self.timer = perf_counter()
+            button_text: str = self.rand_result[button_name]
+            if button_text in group:
+                self.timer = perf_counter()
+                self.completed.append(button_text)
+            else:
+                self.logger.info(button_name+": "+button_text.replace('\n', ' '))
             self.logger.info(f"Button {button_name} has been pressed")
         else:
             self.logger.info(
@@ -224,7 +231,14 @@ class MainWindow(QtWidgets.QMainWindow):
             for C in range(1, 6):
                 self.rand_result[f"R{R}C{C}"] = group_25[R+C*5-6]
 
-    def resizeEvent(self, a0: QtGui.QResizeEvent): # not callable
+    @timing
+    def endapp(self):
+        with open(path.join('.', 'result_order.txt'), 'w', encoding='utf-8') as f:
+            f.write('\n'.join(self.completed))
+            f.write(f'\n\n{ctime()}')
+
+    def resizeEvent(self, a0: QtGui.QResizeEvent):  # not callable
+        super().resizeEvent(a0)
         width, height = a0.size().width(), a0.size().height()
         img_w, img_h = self.img_size
         if width/img_w > height/img_h:
@@ -234,7 +248,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Rspacer.changeSize(self.space_size, 40)
         self.ui.Lspacer.changeSize(self.space_size, 40)
         self.flash()
-    
+
     def keyPressEvent(self, a0: QtGui.QKeyEvent): # not callable
+        super().keyPressEvent(a0)
         if a0.key() == QtCore.Qt.Key_Escape:
-            QtCore.QCoreApplication.instance().quit()
+            self.end()
+
+    def closeEvent(self, a0: QtGui.QCloseEvent): # not callable
+        self.endapp()
+        super().closeEvent(a0)
