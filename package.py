@@ -1,7 +1,9 @@
 import PyInstaller.__main__
 
 PyInstaller.__main__.run([
-    '-F',
+    '-D',
     '-w',
-    r'.\src\main.py'
+    r'.\src\main.py',
+    '--icon',
+    r'.\img\icon.jpg'
 ])
