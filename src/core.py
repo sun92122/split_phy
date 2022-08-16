@@ -18,6 +18,7 @@ from UI import UiMain
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
+        init_start = perf_counter()
         super(MainWindow, self).__init__()
         self.logger = new_log()
         self.flash = lambda: QtWidgets.QApplication.processEvents()
@@ -61,6 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.rand_result = {}
         self.rand()
         self.completed = []
+        self.logger.info(f'MainWindow init use {perf_counter()-init_start} secs')
 
     def get_font(self):
         font = QtGui.QFont()
@@ -257,3 +259,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def closeEvent(self, a0: QtGui.QCloseEvent): # not callable
         self.endapp()
         super().closeEvent(a0)
+
+    @timing
+    def show(self): # just callable in main
+        return super().show()
