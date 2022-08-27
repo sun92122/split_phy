@@ -4,15 +4,14 @@
 
 from os import path
 from random import sample, seed, shuffle
-from time import perf_counter, ctime
+from time import ctime, perf_counter
 
+from PIL import Image
 from pygame import mixer
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from data import Debug, group, try_again
 from debugger import new_log, timing
-from imageandsound import (front_decode, hover_decode, icon_decode, img_decode,
-                           sound_decode)
 from UI import UiMain
 
 
@@ -27,8 +26,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.newfont = self.get_font()
         self.setWindowTitle('我愛瑞典肉丸')
         try:
-            icon_type = icon_decode(path.exists(path.join(
-                '.', 'img', 'icon.jpg')) or path.exists(path.join('.', 'img', 'icon.png')))
+            if path.exists(path.join('.', 'img', 'icon.png')):
+                icon_type = '.png'
+            else:
+                icon_type = '.jpg'
             self.setWindowIcon(QtGui.QIcon(
                 path.join('.', 'img', f'icon{icon_type}')))
         except:
@@ -120,14 +121,21 @@ class MainWindow(QtWidgets.QMainWindow):
     def set_button_icon(self):
         debug = Debug.set_button_icon
 
-        img_type, self.img_size = img_decode(path.exists(path.join(
-            '.', 'img', 'image.jpg')) or path.exists(path.join('.', 'img', 'image.png')))
+        if path.exists(path.join('.', 'img', 'image.png')):
+            img_type = '.png'
+        else:
+            img_type = '.jpg'
+        self.img_size = Image.open(path.join('.', 'img', f'image{img_type}')).size
 
-        hover_type = hover_decode(path.exists(path.join(
-            '.', 'img', 'hover.jpg')) or path.exists(path.join('.', 'img', 'hover.png')))
+        if path.exists(path.join('.', 'img', 'hover.png')):
+            hover_type = '.png'
+        else:
+            hover_type = '.jpg'
 
-        front_type = front_decode(path.exists(path.join(
-            '.', 'img', 'front.jpg')) or path.exists(path.join('.', 'img', 'front.png')))
+        if path.exists(path.join('.', 'img', 'front.png')):
+            front_type = '.png'
+        else:
+            front_type = '.jpg'
 
         if not debug:
             self.image_style = self.image_style.replace(
@@ -150,7 +158,7 @@ class MainWindow(QtWidgets.QMainWindow):
         sound_path = path.join(
             '.', 'sound', 'test.mp3' if debug else 'sound.mp3')
         if not path.exists(sound_path):
-            sound_decode()
+            return
         mixer.init()
         mixer.music.load(sound_path)
 
@@ -232,6 +240,14 @@ class MainWindow(QtWidgets.QMainWindow):
         for R in range(1, 6):
             for C in range(1, 6):
                 self.rand_result[f"R{R}C{C}"] = group_25[R+C*5-6]
+        self.logger.info('\n'.join([
+            'fair and just:',
+            ''.join([f"{x:　<12}".replace('\n', '') for x in group_25[0::5]]),
+            ''.join([f"{x:　<12}".replace('\n', '') for x in group_25[1::5]]),
+            ''.join([f"{x:　<12}".replace('\n', '') for x in group_25[2::5]]),
+            ''.join([f"{x:　<12}".replace('\n', '') for x in group_25[3::5]]),
+            ''.join([f"{x:　<12}".replace('\n', '') for x in group_25[4::5]])
+        ]))
 
     @timing
     def endapp(self):
@@ -239,7 +255,7 @@ class MainWindow(QtWidgets.QMainWindow):
             f.write('\n'.join(self.completed))
             f.write(f'\n\n{ctime()}')
 
-    def resizeEvent(self, a0: QtGui.QResizeEvent):  # not callable
+    def resizeEvent(self, a0: QtGui.QResizeEvent): # not callable
         super().resizeEvent(a0)
         width, height = a0.size().width(), a0.size().height()
         img_w, img_h = self.img_size
