@@ -34,7 +34,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 path.join('.', 'img', f'icon{icon_type}')))
         except:
             pass
-        self.img_size = (1086, 730)
+        self.img_size = (545, 545)
         self.ui.backgrond.setStyleSheet('background-color: #BABABA;')
         self.image_style = """
             QPushButton {
@@ -57,7 +57,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.set_button_icon()
         self.end = lambda: QtCore.QCoreApplication.instance().quit()
         self.set_close()
-        self.timer = perf_counter()-5
+        self.timer = perf_counter()-3
         self.set_push_sound()
         self.play_sound = lambda: mixer.music.play()
         self.rand_result = {}
@@ -68,14 +68,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def get_font(self):
         font = QtGui.QFont()
         font.setFamily('微軟正黑體')
-        font.setPixelSize(50)
+        font.setPixelSize(38)
         return font
 
     @timing
     def set_close(self):
-        self.close = QtWidgets.QDockWidget(self)
-        self.close.setFeatures(QtWidgets.QDockWidget.DockWidgetFloatable)
-        self.close.setFloating(True)
+        self.close_dock = QtWidgets.QDockWidget(self)
+        self.close_dock.setFeatures(QtWidgets.QDockWidget.DockWidgetFloatable)
+        self.close_dock.setFloating(True)
         self.close_button = QtWidgets.QPushButton()
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -88,15 +88,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.close_button.setObjectName("Close")
         self.close_button.clicked.connect(self.end)
         size = self.space_size/2+1
-        self.logger.debug(self.close_button.geometry().size())
-        self.close.setWidget(self.close_button)
-        self.close.setTitleBarWidget(QtWidgets.QWidget())
-        self.close.setGeometry(self.size().width()-size+1, 0, size, size)
-        self.close.setStyleSheet("background-color: #BABABA;")
+        self.close_dock.setWidget(self.close_button)
+        self.close_dock.setTitleBarWidget(QtWidgets.QWidget())
+        self.close_dock.setGeometry(self.size().width()-size+1, 0, size, size)
+        self.close_dock.setStyleSheet("background-color: #BABABA;")
         self.close_button.setStyleSheet("""
             QPushButton {
                 border: 2px solid #222;
-                border-radius: 38%;
+                border-radius: 100%;
                 background-color: #FF0;
                 font-size: 20px;
                 color: #111
@@ -105,8 +104,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 background-color: #F00;
             }
         """)
-        self.close_button.setFont(self.newfont)
-        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.close)
+        self.close_dock.setFont(self.newfont)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.close_dock)
 
     @timing
     def connect_button(self):
@@ -170,7 +169,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.has_pressed[button_name]:
             self.logger.info(
                 f"Button {button_name} has been pressed but has been flipped")
-        elif perf_counter()-self.timer > 5 or debug:
+        elif perf_counter()-self.timer > 3 or debug:
             button_text: str = self.rand_result[button_name]
             if button_text in group:
                 self.timer = perf_counter()
