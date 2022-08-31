@@ -68,7 +68,11 @@ class MainWindow(QtWidgets.QMainWindow):
     def get_font(self):
         font = QtGui.QFont()
         font.setFamily('微軟正黑體')
-        font.setPixelSize(38)
+        try:
+            with open(path.join('.', 'img', 'font.txt')) as font_data:
+                font.setPixelSize(int(font_data.read()))
+        except:
+            font.setPixelSize(30)
         return font
 
     @timing
